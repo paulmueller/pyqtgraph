@@ -765,7 +765,7 @@ class ScatterPlotItem(GraphicsObject):
                 updateMask = viewMask & np.equal(self.data['targetRect'], None)
                 if np.any(updateMask):
                     updatePts = pts[:,updateMask]
-                    width = self.data[updateMask]['width']*2
+                    width = self.data[updateMask]['width']
                     self.data['targetRect'][updateMask] = list(imap(QtCore.QRectF, updatePts[0,:], updatePts[1,:], width, width))
 
                 data = self.data[viewMask]
