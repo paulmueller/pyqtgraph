@@ -784,8 +784,8 @@ class ScatterPlotItem(GraphicsObject):
                 pts = pts[:,viewMask]
                 for i, rec in enumerate(data):
                     p.resetTransform()
-                    offx = rec["width"] - offset.x()
-                    offy = rec["width"] - offset.y()
+                    offx = rec["width"]/2 - offset.x()
+                    offy = rec["width"]/2 - offset.y()
                     p.translate(pts[0,i] + offx, pts[1,i] + offy)
                     drawSymbol(p, *self.getSpotOpts(rec, scale))
         else:
