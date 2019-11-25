@@ -565,7 +565,7 @@ class ScatterPlotItem(GraphicsObject):
 
             self.fragmentAtlas.getAtlas() # generate atlas so source widths are available.
 
-            dataSet['width'] = np.array(list(imap(QtCore.QRectF.width, dataSet['sourceRect'])))/2
+            dataSet['width'] = np.array(list(imap(QtCore.QRectF.width, dataSet['sourceRect'])))
             dataSet['targetRect'] = None
             self._maxSpotPxWidth = self.fragmentAtlas.max_width
         else:
@@ -777,11 +777,16 @@ class ScatterPlotItem(GraphicsObject):
                 # render each symbol individually
                 p.setRenderHint(p.Antialiasing, aa)
 
+                p0 = QtCore.QPoint(0,0)
+                offset = self.getViewBox().parentItem().mapToDevice(p0)
+
                 data = self.data[viewMask]
                 pts = pts[:,viewMask]
                 for i, rec in enumerate(data):
                     p.resetTransform()
-                    p.translate(pts[0,i] + rec['width']/2, pts[1,i] + rec['width']/2)
+                    offx = rec["width"] - offset.x()
+                    offy = rec["width"] - offset.y()
+                    p.translate(pts[0,i] + offx, pts[1,i] + offy)
                     drawSymbol(p, *self.getSpotOpts(rec, scale))
         else:
             if self.picture is None:
