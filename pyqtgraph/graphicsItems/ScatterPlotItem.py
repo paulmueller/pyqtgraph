@@ -711,7 +711,7 @@ class ScatterPlotItem(GraphicsObject):
             return None
 
         pts = fn.transformCoordinates(tr, pts)
-        pts -= self.data['width']
+        pts -= self.data['width'] / 2
         pts = np.clip(pts, -2**30, 2**30) ## prevent Qt segmentation fault.
 
         return pts
