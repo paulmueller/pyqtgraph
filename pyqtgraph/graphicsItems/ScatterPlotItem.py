@@ -241,6 +241,7 @@ class ScatterPlotItem(GraphicsObject):
         profiler = debug.Profiler()
         GraphicsObject.__init__(self)
 
+        self.export_mode = "single"  # works-for-me; see #176
         self.picture = None   # QPicture used for rendering when pxmode==False
         self.fragmentAtlas = SymbolAtlas()
 
@@ -778,7 +779,10 @@ class ScatterPlotItem(GraphicsObject):
                 p.setRenderHint(p.Antialiasing, aa)
 
                 p0 = QtCore.QPoint(0,0)
-                offset = self.getViewBox().parentItem().mapToDevice(p0)
+                if self.export_mode == "single":
+                    offset = self.getViewBox().parentItem().mapToDevice(p0)
+                else:
+                    offset = p0
 
                 data = self.data[viewMask]
                 pts = pts[:,viewMask]

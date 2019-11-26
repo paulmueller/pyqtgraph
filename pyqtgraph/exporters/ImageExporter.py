@@ -29,9 +29,10 @@ class ImageExporter(Exporter):
             {'name': 'background', 'type': 'color', 'value': bg},
             {'name': 'invertValue', 'type': 'bool', 'value': False}
         ])
+
         self.params.param('width').sigValueChanged.connect(self.widthChanged)
         self.params.param('height').sigValueChanged.connect(self.heightChanged)
-        
+
     def widthChanged(self):
         sr = self.getSourceRect()
         ar = float(sr.height()) / sr.width()

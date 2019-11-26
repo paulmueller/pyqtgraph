@@ -2,6 +2,9 @@ from ..widgets.FileDialog import FileDialog
 from ..Qt import QtGui, QtCore, QtSvg
 from ..python2_3 import asUnicode, basestring
 from ..GraphicsScene import GraphicsScene
+from ..graphicsItems.GraphicsLayout import GraphicsLayout
+from ..graphicsItems.ScatterPlotItem import ScatterPlotItem
+from ..graphicsItems.PlotItem import PlotItem
 import os, re
 LastExportDirectory = None
 
@@ -27,7 +30,15 @@ class Exporter(object):
         """
         object.__init__(self)
         self.item = item
-        
+        # works-for-me
+        scene = self.getScene()
+        for it in scene.items():
+            if isinstance(it, ScatterPlotItem):
+                if isinstance(item, PlotItem):
+                    it.export_mode = "single"
+                else:
+                    it.export_mode = "layout"
+
     def parameters(self):
         """Return the parameters used to configure this exporter."""
         raise Exception("Abstract method must be overridden in subclass.")

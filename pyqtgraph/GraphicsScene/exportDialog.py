@@ -98,7 +98,18 @@ class ExportDialog(QtGui.QWidget):
         self.selectBox.setRect(newBounds)
         self.selectBox.show()
         self.updateFormatList()
-        
+        # also update the current exported
+        # (e.g. for ImageExporter, the width and height changes if
+        # different parts of the scene are selected)
+        expClass = self.exporterClasses[str(self.ui.formatList.currentItem().text())]
+        exp = expClass(item=item.gitem)
+        params = exp.parameters()
+        if params is None:
+            self.ui.paramTree.clear()
+        else:
+            self.ui.paramTree.setParameters(params)
+        self.currentExporter = exp
+
     def updateFormatList(self):
         current = self.ui.formatList.currentItem()
         if current is not None:
